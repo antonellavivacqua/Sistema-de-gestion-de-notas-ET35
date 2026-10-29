@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Calificaciones</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <script>
+        (function () {
+            var tema = null;
+            try { tema = localStorage.getItem("tema"); } catch (e) {}
+            if (tema !== "light" && tema !== "dark") {
+                tema = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            document.documentElement.setAttribute("data-theme", tema);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- PANTALLA DE LOGIN -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
+            <h2>Acceso al Sistema</h2>
+            <p>Ingrese su DNI y contraseña para continuar</p>
+            <form id="login-form">
+                <div class="login-group">
+                    <label for="login-dni">DNI</label>
+                    <input type="text" id="login-dni" placeholder="Ingrese su DNI" required autocomplete="off">
+                </div>
+                <div class="login-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" placeholder="Contraseña" required>
+                </div>
+                <div id="login-error" class="login-error" style="display: none;">DNI o contraseña incorrectos.</div>
+                <button type="submit" class="login-btn">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MENSAJE EMERGENTE DE BIENVENIDA -->
+    <div id="toast-bienvenida" class="toast-bienvenida" style="display: none;">
+        <div class="toast-contenido">
+            <span id="toast-texto">BIENVENIDO</span>
+            <span class="toast-hint">(Hacé clic en cualquier parte para continuar)</span>
+        </div>
+    </div>
+
+    <header>
+        <h1>Sistema de Gestión de Calificaciones</h1>
+        <button id="tema-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">🌙</button>
+    </header>
+
+    <div class="container">
+        <aside id="cursos" class="panel">
+            <h2>Cursos</h2>
+        </aside>
+        <aside id="alumnos" class="panel">
+            <input type="search" id="buscador" placeholder="Buscar alumno..." autocomplete="off">
+            <div id="alumnos-contenido">
+                <h2>Seleccione un curso</h2>
+            </div>
+        </aside>
+        <main id="detalle" class="panel">
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
